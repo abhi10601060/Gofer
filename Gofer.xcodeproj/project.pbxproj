@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AB530C122EB3CCC400D195BF /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = AB530C112EB3CCC400D195BF /* Factory */; };
+		AB530C1B2EB3D72000D195BF /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = AB530C1A2EB3D72000D195BF /* FactoryKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		AB530BEE2EB3C6D200D195BF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +57,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB530C1B2EB3D72000D195BF /* FactoryKit in Frameworks */,
+				AB530C122EB3CCC400D195BF /* Factory in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +85,7 @@
 				AB530BE22EB3C6D000D195BF /* Gofer */,
 				AB530BF02EB3C6D200D195BF /* GoferTests */,
 				AB530BFA2EB3C6D200D195BF /* GoferUITests */,
+				AB530C192EB3D72000D195BF /* Frameworks */,
 				AB530BE12EB3C6D000D195BF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +98,13 @@
 				AB530BF72EB3C6D200D195BF /* GoferUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AB530C192EB3D72000D195BF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +127,8 @@
 			);
 			name = Gofer;
 			packageProductDependencies = (
+				AB530C112EB3CCC400D195BF /* Factory */,
+				AB530C1A2EB3D72000D195BF /* FactoryKit */,
 			);
 			productName = Gofer;
 			productReference = AB530BE02EB3C6D000D195BF /* Gofer.app */;
@@ -195,6 +212,9 @@
 			);
 			mainGroup = AB530BD72EB3C6D000D195BF;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AB530C102EB3CCC400D195BF /* XCRemoteSwiftPackageReference "Factory" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AB530BE12EB3C6D000D195BF /* Products */;
 			projectDirPath = "";
@@ -570,6 +590,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AB530C102EB3CCC400D195BF /* XCRemoteSwiftPackageReference "Factory" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hmlongco/Factory.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AB530C112EB3CCC400D195BF /* Factory */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB530C102EB3CCC400D195BF /* XCRemoteSwiftPackageReference "Factory" */;
+			productName = Factory;
+		};
+		AB530C1A2EB3D72000D195BF /* FactoryKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB530C102EB3CCC400D195BF /* XCRemoteSwiftPackageReference "Factory" */;
+			productName = FactoryKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AB530BD82EB3C6D000D195BF /* Project object */;
 }

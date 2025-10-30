@@ -6,14 +6,17 @@
 //
 
 import SwiftUI
+import FactoryKit
 
 struct ContentView: View {
+    @Injected(\.testModel) var testModel: Test
+    
     var body: some View {
         VStack {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text("Hello, world!" + String(testModel.id))
         }
         .padding()
     }
@@ -22,3 +25,4 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
+
