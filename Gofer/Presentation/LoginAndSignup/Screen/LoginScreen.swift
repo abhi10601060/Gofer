@@ -9,6 +9,8 @@ import SwiftUI
 
 struct LoginScreen: View {
 
+    @StateObject var viewModel: LoginViewModel = LoginViewModel()
+
     var body: some View {
         ZStack {
             VStack {
@@ -23,6 +25,20 @@ struct LoginScreen: View {
 
                 InputContainer
 
+                    .alert(isPresented: $viewModel.showErrorAlert) {
+                        Alert(
+                            title: Text("Input Error"),
+                            message: Text(viewModel.errorDescription),
+                            dismissButton: .default(
+                                Text("Try again"),
+                                action: { viewModel.showErrorAlert = false }
+                            )
+                        )
+                    }
+            }
+            
+            if viewModel.isLoading {
+                ProgressView("Signig in...")
             }
         }
         .navigationBarHidden(true)
@@ -36,14 +52,14 @@ struct LoginScreen: View {
 
             TitledTextInput(
                 title: "Email",
-                text: .constant(""),
+                text: $viewModel.email,
                 leadingIcon: "envelope",
                 hint: "Enter Email here"
             )
 
             TitleSecuredInput(
                 title: "Password",
-                text: .constant(""),
+                text: $viewModel.password,
                 leadingIcon: "lock",
                 hint: "Enter Password here"
             )
@@ -58,7 +74,7 @@ struct LoginScreen: View {
             .padding(.vertical, 5)
 
             Button(action: {
-
+                viewModel.signIn()
             }) {
                 Text("Sign In")
                     .font(.headline.bold())
@@ -97,7 +113,7 @@ struct LoginScreen: View {
                 Text("Don't hyave an account? ")
                     .foregroundColor(.black.opacity(0.8))
                     .fontWeight(.light)
-                NavigationLink("Sign Up", destination: {SignUpScreen()})
+                NavigationLink("Sign Up", destination: { SignUpScreen() })
             }
             .padding(.top, 20)
 

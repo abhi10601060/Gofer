@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SignUpScreen: View {
 
-    @State var policyAgreed = false
+    @StateObject var viewModel: SignupViewModel = SignupViewModel()
 
     var body: some View {
         ZStack {
@@ -25,8 +25,22 @@ struct SignUpScreen: View {
 
                 InputContainer
 
+                    .alert(isPresented: $viewModel.showErrorAlert) {
+                        Alert(
+                            title: Text("Input Error"),
+                            message: Text(viewModel.errorDescription),
+                            dismissButton: .default(
+                                Text("Try again"),
+                                action: { viewModel.showErrorAlert = false }
+                            )
+                        )
+                    }
             }
             .padding(10)
+            
+            if viewModel.isLoading {
+                ProgressView("Signing up...")
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.primaryBG)
@@ -36,14 +50,14 @@ struct SignUpScreen: View {
         VStack {
             TitledTextInput(
                 title: "Email",
-                text: .constant(""),
+                text: $viewModel.email,
                 leadingIcon: "envelope",
                 hint: "Enter Email here"
             )
 
             TitleSecuredInput(
                 title: "Password",
-                text: .constant(""),
+                text: $viewModel.password,
                 leadingIcon: "lock",
                 hint: "Enter Password here"
             )
@@ -51,23 +65,25 @@ struct SignUpScreen: View {
 
             TitleSecuredInput(
                 title: "Confirm Password",
-                text: .constant(""),
+                text: $viewModel.confirmPassword,
                 leadingIcon: "lock",
                 hint: "Enter Password again"
             )
             .padding(.top, 15)
 
-            Toggle(isOn: $policyAgreed) {
+            Toggle(isOn: $viewModel.isPolicyAccepted) {
                 Text(attributedPolicyString)
                     .font(.caption)
-                    
+
             }
             .toggleStyle(CheckboxToggleStyle())
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(5)
 
             Button(action: {
-
+                if viewModel.isPolicyAccepted {
+                    viewModel.signUp()
+                }
             }) {
                 Text("Sign Up")
                     .font(.headline.bold())
@@ -77,10 +93,10 @@ struct SignUpScreen: View {
                     .background(.theme)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .padding(.horizontal, 10)
-                    .opacity(policyAgreed ? 1 : 0.6)
+                    .opacity(viewModel.isPolicyAccepted ? 1 : 0.6)
             }
             .padding(.top, 20)
-            
+
             HStack(alignment: .center, spacing: 10) {
                 Spacer()
                     .frame(height: 1)
