@@ -41,7 +41,7 @@ struct LoginScreen: View {
                 hint: "Enter Email here"
             )
 
-            TitledTextInput(
+            TitleSecuredInput(
                 title: "Password",
                 text: .constant(""),
                 leadingIcon: "lock",

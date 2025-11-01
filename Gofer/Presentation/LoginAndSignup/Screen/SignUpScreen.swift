@@ -41,7 +41,7 @@ struct SignUpScreen: View {
                 hint: "Enter Email here"
             )
 
-            TitledTextInput(
+            TitleSecuredInput(
                 title: "Password",
                 text: .constant(""),
                 leadingIcon: "lock",
@@ -49,7 +49,7 @@ struct SignUpScreen: View {
             )
             .padding(.top, 15)
 
-            TitledTextInput(
+            TitleSecuredInput(
                 title: "Confirm Password",
                 text: .constant(""),
                 leadingIcon: "lock",
