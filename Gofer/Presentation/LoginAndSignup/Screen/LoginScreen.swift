@@ -74,7 +74,13 @@ struct LoginScreen: View {
             .padding(.vertical, 5)
 
             Button(action: {
-                viewModel.signIn()
+//                viewModel.signIn()
+                Task{
+//                    DispatchQueue.main.async{
+                        await PingUseCase().execute()
+//                    }
+                }
+                
             }) {
                 Text("Sign In")
                     .font(.headline.bold())
