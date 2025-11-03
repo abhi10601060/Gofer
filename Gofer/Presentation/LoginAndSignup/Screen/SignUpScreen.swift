@@ -10,7 +10,8 @@ import SwiftUI
 struct SignUpScreen: View {
 
     @StateObject var viewModel: SignupViewModel = SignupViewModel()
-
+    @State var navigateToHome: Bool = false
+    
     var body: some View {
         ZStack {
             VStack {
@@ -44,6 +45,15 @@ struct SignUpScreen: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.primaryBG)
+        .onReceive(viewModel.tokenSubject){ token in
+            print(token)
+            if !token.isEmpty {
+                navigateToHome = true
+            }
+        }
+        .navigationDestination(isPresented: $navigateToHome){
+            
+        }
     }
 
     var InputContainer: some View {
@@ -82,7 +92,9 @@ struct SignUpScreen: View {
 
             Button(action: {
                 if viewModel.isPolicyAccepted {
-                    viewModel.signUp()
+                    Task{
+                        await viewModel.signUp()
+                    }
                 }
             }) {
                 Text("Sign Up")
@@ -142,5 +154,7 @@ struct SignUpScreen: View {
 }
 
 #Preview {
-    SignUpScreen()
+    NavigationStack{
+        SignUpScreen()
+    }
 }

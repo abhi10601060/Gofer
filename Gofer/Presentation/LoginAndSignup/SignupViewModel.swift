@@ -17,6 +17,9 @@ class SignupViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var showErrorAlert: Bool = false
     @Published var errorDescription: String = ""
+    
+    private let signupUseCase : SignupUseCase = SignupUseCase()
+    let tokenSubject: PassthroughSubject<String, Never> = .init()
    
     func isValidForm() -> Bool {
         let isValid = !email.isEmpty && !password.isEmpty && !confirmPassword.isEmpty
@@ -27,7 +30,7 @@ class SignupViewModel: ObservableObject {
         return password == confirmPassword
     }
     
-    func signUp(){
+    func signUp() async{
         if !isValidForm(){
             showErrorAlert = true
             errorDescription = "Please fill all the fields"
@@ -41,5 +44,14 @@ class SignupViewModel: ObservableObject {
         }
         
         isLoading = true
+        do{
+            let body = SignupRequestDto(username: email, password: password)
+            let res = try await signupUseCase.execute(body: body)
+            tokenSubject.send(res.token)
+        } catch {
+            showErrorAlert = true
+            errorDescription = "\(error)"
+        }
+        isLoading = false
     }
 }

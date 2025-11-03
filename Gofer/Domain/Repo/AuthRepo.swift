@@ -7,4 +7,9 @@
 
 protocol AuthRepo {
     func ping() async
+    
+    func login(body: LoginRequestDto) async throws -> LoginResponseDto
+    
+    func signup(body: SignupRequestDto) async throws -> SignupResponseDto
+    
 }

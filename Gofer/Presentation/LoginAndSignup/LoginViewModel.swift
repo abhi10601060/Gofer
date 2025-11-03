@@ -16,6 +16,9 @@ class LoginViewModel : ObservableObject {
     @Published var isLoading: Bool = false
     @Published var showErrorAlert: Bool = false
     @Published var errorDescription: String = ""
+    private var loginUseCase = LoginUseCase()
+    
+    let tokenSubject = PassthroughSubject<String, Never>()
     
     
     func isFormValid() -> Bool {
@@ -27,9 +30,19 @@ class LoginViewModel : ObservableObject {
         return isValid
     }
     
-    func signIn(){
+    func signIn() async {
         if isFormValid() {
             isLoading = true
+            do{
+                let body = LoginRequestDto(userName: email, password: password)
+                let res = try await loginUseCase.execute(body: body)
+                tokenSubject.send(res.token)
+            } catch {
+                showErrorAlert = true
+                errorDescription = "\(error)"
+            }
+            isLoading = false
         }
+        
     }
 }

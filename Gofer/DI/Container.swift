@@ -28,5 +28,10 @@ extension Container {
         Factory(self) { AuthServiceImpl() }
             .singleton
     }
+    
+    var authRepo: Factory<AuthRepo> {
+        Factory(self) { AuthRepoImpl() }
+            .singleton
+    }
 }
 

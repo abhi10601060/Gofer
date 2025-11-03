@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+internal import Combine
 
 struct LoginScreen: View {
 
     @StateObject var viewModel: LoginViewModel = LoginViewModel()
+    @State var navigateToHome: Bool = false
 
     var body: some View {
         ZStack {
@@ -45,6 +47,15 @@ struct LoginScreen: View {
         .ignoresSafeArea(edges: .all)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.primaryBG)
+        .onReceive(viewModel.tokenSubject){ token in
+            print(token)
+            if !token.isEmpty {
+                navigateToHome = true
+            }
+        }
+        .navigationDestination(isPresented: $navigateToHome){
+            
+        }
     }
 
     var InputContainer: some View {
@@ -74,13 +85,9 @@ struct LoginScreen: View {
             .padding(.vertical, 5)
 
             Button(action: {
-//                viewModel.signIn()
                 Task{
-//                    DispatchQueue.main.async{
-                        await PingUseCase().execute()
-//                    }
+                   await viewModel.signIn()
                 }
-                
             }) {
                 Text("Sign In")
                     .font(.headline.bold())
